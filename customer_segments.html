@@ -12066,8 +12066,8 @@ div#notebook {
 <p><strong>Answer:</strong></p>
 <ul>
 <li>Customer 0: From the data described above, the customer described spent above average for Detergents_Paper and below average for the rest of categories. We can also see that this establishment does not use a lot of Frozen or Delicatessen products. Its use of Milk and Fresh products is moderate and Grocery products is towards the 75+ percentile. This sounds like a moderate sized retailer.</li>
-<li>Customer 1: In this case, the customer spent above average on Fresh and below average on other categories. The establishment uses relatively low amounts of Milk, Grocery, Detergents_Paper and moderately higher amounts of Frozen and Delicatessan products. This sounds like a restaurant.</li>
-<li>Customer 2: In this case, the customer spent above average on Fresh and Frozen, and below average for the others. They spent relatively low on Milk, Grocery, Delicatessan, moderately on Detergents_Paper and a lot on Fresh and Frozen. This too sounds like a restaurant, although a larger one.</li>
+<li>Customer 1: In this case, the customer spent above average on Fresh and below average on other categories. The establishment uses relatively low amounts of Milk, Grocery, Detergents_Paper and moderately higher amounts of Frozen and Delicatessan products. This sounds like a small restaurant, let's call it a cafe.</li>
+<li>Customer 2: In this case, the customer spent above average on Fresh and Frozen, and below average for the others. They spent relatively low on Milk, Grocery, Delicatessan, moderately on Detergents_Paper and a lot on Fresh and Frozen. This sounds like a (large)restaurant.</li>
 </ul>
 
 </div>
@@ -12098,21 +12098,36 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Make a copy of the DataFrame, using the &#39;drop&#39; function to drop the given feature</span>
-<span class="n">new_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;Grocery&#39;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-
-<span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="c1"># TODO: Split the data into training and testing sets using the given feature as the target</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">new_data</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Grocery&#39;</span><span class="p">],</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 <span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
-<span class="c1"># TODO: Create a decision tree regressor and fit it to the training set</span>
-<span class="n">regressor</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-<span class="n">regressor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
 
-<span class="c1"># TODO: Report the score of the prediction using the testing set</span>
-<span class="n">score</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span>
-<span class="k">print</span> <span class="n">score</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">r_state</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="c1"># Define a seed number.</span>
+
+    <span class="c1"># TODO: Make a copy of the DataFrame, using the &#39;drop&#39; function to drop the given feature</span>
+    <span class="n">new_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Grocery&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1">#display(new_data.describe())</span>
+
+    <span class="c1"># TODO: Split the data into training and testing sets using the given feature as the target</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">new_data</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Grocery&#39;</span><span class="p">],</span>
+                                                        <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">r_state</span><span class="p">)</span>
+
+    <span class="c1"># TODO: Create a decision tree regressor and fit it to the training set</span>
+    <span class="n">regressor</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">r_state</span><span class="p">)</span>
+
+    <span class="c1"># Fit the training data to the regressor</span>
+    <span class="n">regressor</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+    <span class="c1"># TODO: Report the score of the prediction using the testing set</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+
+    <span class="c1"># Put the score into the scores list</span>
+    <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+
+<span class="c1"># Obtain the average of the scores</span>
+<span class="n">average_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">average_score</span>
 </pre></div>
 
 </div>
@@ -12125,7 +12140,7 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>0.681884008544
+<pre>0.674541932071
 </pre>
 </div>
 </div>
@@ -21886,6 +21901,7 @@ RU5ErkJggg==
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong> The total variance explained by first and second principal components is 0.4430+0.2638 = 0.7068. The variance explained by the first four components is 0.9311.</p>
 <p>Each of these components projects spending patterns that capture a certain type of customer. For instance, in the first principal component, the high positive weight on milk, grocery and detergents_paper look like the spending patterns of a retail store. Likewise, the second component seems to have high weights on fresh, frozen and delicatessen products with positive weights on the other categories. This looks like the spending pattern of a restaurant. The third component has a high positive weight on Delicatessen and Frozen products. This looks like a store selling deli products. Finally, the fourth component has a very high positive weight on Frozen products with smaller weights on Detergents_Paper,Grocery and Milk products. This looks like Frozen meat store.</p>
+<p>Further, the negative weights represent an inverse relationship with the effect on the component.</p>
 
 </div>
 </div>
@@ -25241,8 +25257,11 @@ Sample point 2 predicted to be in Cluster 0
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer:</strong>
-My earlier prediction is confirmed as Sample 0 looks like a retail store while the other two points look like restaurants! :)</p>
+<p><strong>Answer:</strong></p>
+<p>Sample point 0: Initially I classified this to be a retail store. The segment 1 from Q8 matches this quite well. As seen above, the prediction of the point places it in Cluster 1, which is consistent the initial guess.</p>
+<p>Sample point 1: Initially I classified this to be a cafe. The segment 0 from Q8 matches this because as I mentioned earlier, I consider cafe to be a small restaurant. As seen above, the prediction of the point places it in Cluster 0, which is consistent the initial guess.</p>
+<p>Sample point 2: Initially I classified this to be a restaurant. The segment 0 from Q8 matches this guess. As seen above, the prediction of the point places it in Cluster 0, which is consistent the initial guess.</p>
+<p>My earlier prediction is confirmed as Sample 0 looks like a retail store while the other two points look like restaurants.</p>
 
 </div>
 </div>
@@ -25303,7 +25322,7 @@ My earlier prediction is confirmed as Sample 0 looks like a retail store while t
 </tr>
 </tbody>
 </table>
-<p>A/B tests would be useful in confirming the above hypothesis or reveal if one segment prefers lowering delivery frequency over the other. We can do this by randomly sampling the two segments and reducing the frequency for them and observing their reactions.</p>
+<p>A/B tests would be useful in confirming the above hypothesis or reveal if one segment prefers lowering delivery frequency over the other. This can be done by creating two groups - a control group and a variation group. In each of these groups we need to have samples of both the segments we found during clustering in order for the A/B test to be statistically significant. A good way to do this sampling is through hypothesis testing and power analysis in order to determine the sample size and distribution from clusters in order to maximize our confidence in the results of the A/B testing. Without the knowledge of the clusters and data distribution across them, the results of the A/B testing would be skewed by the larger segments.</p>
 
 </div>
 </div>
